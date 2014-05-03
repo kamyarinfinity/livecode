@@ -1,0 +1,44 @@
+body {
+	font-family: Helvetica Neue, Helvetica, sans-serif;
+	margin: 0;
+	height: 100%;
+}
+header {
+	background-color: midnightblue;
+	color: white;
+	padding: 12px;
+}
+iframe {
+	border: none;
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+article {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+}
+section {
+	flex-grow: 1;
+	-webkit-flex-grow: 1;
+	min-height: 200px;
+}
+code {
+	display: block;
+	width: 150px;
+	height: 150px;
+}
+.raw {
+	font-family: monospace;
+}
+pre {
+	margin: 0;
+	overflow: scroll;
+}
+
+code{
+	padding: 15px !important;
+}

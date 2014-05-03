@@ -1,0 +1,27 @@
+{% load staticfiles %}
+{% load solo_tags %}
+<!DOCTYPE html>
+{% get_solo 'liveview.LiveCode' as live_code %}
+<html>
+<head>
+<meta charset="UTF-8">
+<style type="text/css" media="screen">
+{% autoescape off %}
+	{{ live_code.raw_css|striptags }}
+{% endautoescape %}
+</style>
+<script src="{% static 'script/jquery-2.1.0.min.js' %}"></script>
+<script type="text/javascript">
+window.onload = function() {
+	{% autoescape off %}
+	{{ live_code.raw_js|striptags }}
+	{% endautoescape %}
+}
+</script>
+</head>
+<body>
+{% autoescape off %}
+{{ live_code.raw_html }}
+{% endautoescape %}
+</body>
+</html>

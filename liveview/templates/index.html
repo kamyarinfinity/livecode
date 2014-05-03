@@ -1,0 +1,48 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Live View — Web Design Workshop</title>
+	<link rel="stylesheet" href="{% static 'style/style.css' %}">
+	<script src="{% static 'script/jquery-2.1.0.min.js' %}"></script>
+	<script type=text/javascript>
+	function update() {
+		var el = document.getElementById("html");
+		el.src=el.src;
+		var els = document.querySelectorAll(".raw");
+		[].forEach.call(els,function(e){
+			var curscroll = e.scrollTop;
+			var qe = $(e);
+			qe.load(qe.data("url"),function(){
+				e.scrollTop = curscroll;
+			});
+		});
+	}
+
+	var oftimer;
+	window.onload = function() {
+		oftimer = setInterval(update,10000);
+		update();
+	};
+	</script>
+</head>
+<body>
+<article>
+<section>
+	<header>HTML</header>
+	<pre><code class="raw" data-url="{% url 'raw_view' 'html' %}"></code></pre>
+</section>
+<section>
+	<header>CSS</header>
+	<pre><code class="raw" data-url="{% url 'raw_view' 'css' %}"></code></pre>
+</section>
+<section>
+	<header>JS</header>
+	<pre><code class="raw" data-url="{% url 'raw_view' 'js' %}"></code></pre>
+</section>
+</article>
+<header>Live View</header>
+<iframe id="html" src="{% url 'live_view' %}"></iframe>
+</body>
+</html>

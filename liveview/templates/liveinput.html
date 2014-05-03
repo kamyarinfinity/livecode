@@ -1,0 +1,66 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Live View — Web Design Workshop</title>
+	<link rel="stylesheet" href="{% static 'style/style.css' %}">
+	<script src="{% static 'script/jquery-2.1.0.min.js' %}"></script>
+	<script type=text/javascript>
+	var oftimer;
+	window.onload = function() {
+		var el = document.getElementById("html");
+		$('body').on('focus', '[contenteditable]', function() {
+			var $this = $(this);
+			$this.data('before', $this.html());
+			return $this;
+		}).on('blur keyup paste input', '[contenteditable]', function() {
+			var $this = $(this);
+			if ($this.data('before') !== $this.html()) {
+				$this.data('before', $this.html());
+				$.post($this.data('url'), {'raw':$this.html()}, function(data) {
+					el.src=el.src;
+				});
+			}
+			return $this;
+		});
+		$('body').on('keydown', '.raw', function(e) {
+			var keyCode = e.keyCode || e.which;
+
+			if (keyCode == 9) {
+				e.preventDefault();
+				var start = $(this).get(0).selectionStart;
+				var end = $(this).get(0).selectionEnd;
+
+				// set textarea value to: text before caret + tab + text after caret
+				$(this).val($(this).val().substring(0, start)
+				            + "\t"
+				            + $(this).val().substring(end));
+
+				// put caret at right position again
+				$(this).get(0).selectionStart =
+				$(this).get(0).selectionEnd = start + 1;
+			}
+		});
+	};
+	</script>
+</head>
+<body>
+<article>
+<section>
+	<header>HTML</header>
+	<pre><code contenteditable class="raw" data-url="{% url 'post_view' 'html' %}"></code></pre>
+</section>
+<section>
+	<header>CSS</header>
+	<pre><code contenteditable class="raw" data-url="{% url 'post_view' 'css' %}"></code></pre>
+</section>
+<section>
+	<header>JS</header>
+	<pre><code contenteditable class="raw" data-url="{% url 'post_view' 'js' %}"></code></pre>
+</section>
+</article>
+<header>Live View</header>
+<iframe id="html" src="{% url 'live_view' %}"></iframe>
+</body>
+</html>
